@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  customer_id  String    @unique
+  customer     BigInt
+  installation BigInt
+  energyBills  Invoice[]
+}
+
+model Invoice {
+  invoice_id                   Int      @id @default(autoincrement())
+  customer                     Customer @relation(fields: [customer_id], references: [customer_id])
+  customer_id                  String
+  reference_mounth             String
+  electrical_energy_kwh        Decimal
+  electrical_energy_value      Decimal
+  sceee_energy_kwh             Decimal
+  sceee_energy_value           Decimal
+  compensated_energy_kwh       Decimal
+  compensated_energy_value     Decimal
+  public_lighting_contribution Decimal
+}
